@@ -168,7 +168,10 @@ static int flash_addr_to_page_floor(uint32_t addr)
 	return page;
 }
 
-/* returns the first page whose start addr is >= "addr" */
+int flash_addr_to_page_ceil(const stm32_t *stm, uint32_t addr);
+
+/*
+// returns the first page whose start addr is >= "addr" 
 int flash_addr_to_page_ceil(uint32_t addr)
 {
 	int page;
@@ -190,6 +193,7 @@ int flash_addr_to_page_ceil(uint32_t addr)
 
 	return addr ? page + 1 : page;
 }
+*/
 
 /* returns the lower address of flash page "page" */
 static uint32_t flash_page_to_addr(int page)
@@ -375,7 +379,7 @@ int main(int argc, char* argv[]) {
 		if (!first_page && end == stm->dev->fl_end)
 			num_pages = STM32_MASS_ERASE;
 		else
-			num_pages = flash_addr_to_page_ceil(end) - first_page;
+			num_pages = flash_addr_to_page_ceil(stm, end) - first_page;
 	} else if (!spage && !npages) {
 		start = stm->dev->fl_start;
 		end = stm->dev->fl_end;
@@ -396,7 +400,7 @@ int main(int argc, char* argv[]) {
 				end = stm->dev->fl_end;
 		} else {
 			end = stm->dev->fl_end;
-			num_pages = flash_addr_to_page_ceil(end) - first_page;
+			num_pages = flash_addr_to_page_ceil(stm, end) - first_page;
 		}
 
 		if (!first_page && end == stm->dev->fl_end)

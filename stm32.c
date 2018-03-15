@@ -119,8 +119,6 @@ static const uint32_t stm_obl_launch_code_length = sizeof(stm_obl_launch_code);
 
 extern const stm32_dev_t devices[];
 
-int flash_addr_to_page_ceil(uint32_t addr);
-
 static void stm32_warn_stretching(const char *f)
 {
 	fprintf(stderr, "Attention !!!\n");
@@ -851,6 +849,28 @@ static stm32_err_t stm32_pages_erase(const stm32_t *stm, uint32_t spage, uint32_
 	return STM32_ERR_OK;
 }
 
+int flash_addr_to_page_ceil(const stm32_t *stm, uint32_t addr)
+{
+    int page;
+    uint32_t *psize;
+
+    if (!(addr >= stm->dev->fl_start && addr <= stm->dev->fl_end))
+        return 0;
+
+    page = 0;
+    addr -= stm->dev->fl_start;
+    psize = stm->dev->fl_ps;
+
+    while (addr >= psize[0]) {
+        addr -= psize[0];
+        page++;
+        if (psize[1])
+            psize++;
+    }
+
+    return addr ? page + 1 : page;
+}
+
 stm32_err_t stm32_erase_memory(const stm32_t *stm, uint32_t spage, uint32_t pages)
 {
 	uint32_t n;
@@ -879,7 +899,7 @@ stm32_err_t stm32_erase_memory(const stm32_t *stm, uint32_t spage, uint32_t page
 		if (!(stm->dev->flags & F_NO_ME))
 			return stm32_mass_erase(stm);
 
-		pages = flash_addr_to_page_ceil(stm->dev->fl_end);
+        pages = flash_addr_to_page_ceil(stm, stm->dev->fl_end);
 	}
 
 	/*
