@@ -34,8 +34,6 @@
 #include "port.h"
 #include "utils.h"
 
-extern FILE *diag;
-
 struct gpio_list {
 	struct gpio_list *next;
 	int gpio;
@@ -176,7 +174,7 @@ static int gpio_sequence(struct port_interface *port, const char *seq, size_t le
 	const char *s = seq;
 	size_t l = len_seq;
 
-	fprintf(diag, "\nGPIO sequence start\n");
+    fprintf(stdout, "\nGPIO sequence start\n");
 	while (ret == 0 && *s && l > 0) {
 		sig_str = NULL;
 		sleep_time = 0;
@@ -243,18 +241,18 @@ static int gpio_sequence(struct port_interface *port, const char *seq, size_t le
 		if (!delimiter) { /* actual gpio/port signal driving */
 			if (gpio < 0) {
 				gpio = -gpio;
-				fprintf(diag, " setting port signal %.3s to %i... ", sig_str, level);
+                fprintf(stdout, " setting port signal %.3s to %i... ", sig_str, level);
 				ret = (port->gpio(port, gpio, level) != PORT_ERR_OK);
-				printStatus(diag, ret);
+                printStatus(stdout, ret);
 			} else {
-				fprintf(diag, " setting gpio %i to %i... ", gpio, level);
+                fprintf(stdout, " setting gpio %i to %i... ", gpio, level);
 				ret = (drive_gpio(gpio, level, &gpio_to_release) != 1);
-				printStatus(diag, ret);
+                printStatus(stdout, ret);
 			}
 		}
 
 		if (sleep_time) {
-			fprintf(diag, " delay %i us\n", sleep_time);
+            fprintf(stdout, " delay %i us\n", sleep_time);
 			usleep(sleep_time);
 		}
 	}
@@ -266,7 +264,7 @@ static int gpio_sequence(struct port_interface *port, const char *seq, size_t le
 		free(to_free);
 	}
 #endif
-	fprintf(diag, "GPIO sequence end\n\n");
+    fprintf(stdout, "GPIO sequence end\n\n");
 	return ret;
 }
 
