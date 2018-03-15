@@ -225,7 +225,7 @@ static port_err_t serial_w32_open(struct port_interface *port,
 		return PORT_ERR_UNKNOWN;
 	}
 
-	port->private = h;
+	port->priv = h;
 	return PORT_ERR_OK;
 }
 
@@ -233,12 +233,12 @@ static port_err_t serial_w32_close(struct port_interface *port)
 {
 	serial_t *h;
 
-	h = (serial_t *)port->private;
+	h = (serial_t *)port->priv;
 	if (h == NULL)
 		return PORT_ERR_UNKNOWN;
 
 	serial_close(h);
-	port->private = NULL;
+	port->priv = NULL;
 	return PORT_ERR_OK;
 }
 
@@ -249,7 +249,7 @@ static port_err_t serial_w32_read(struct port_interface *port, void *buf,
 	DWORD r;
 	uint8_t *pos = (uint8_t *)buf;
 
-	h = (serial_t *)port->private;
+	h = (serial_t *)port->priv;
 	if (h == NULL)
 		return PORT_ERR_UNKNOWN;
 
@@ -273,7 +273,7 @@ static port_err_t serial_w32_write(struct port_interface *port, void *buf,
 	DWORD r;
 	uint8_t *pos = (uint8_t *)buf;
 
-	h = (serial_t *)port->private;
+	h = (serial_t *)port->priv;
 	if (h == NULL)
 		return PORT_ERR_UNKNOWN;
 
@@ -295,7 +295,7 @@ static port_err_t serial_w32_gpio(struct port_interface *port,
 	serial_t *h;
 	int bit;
 
-	h = (serial_t *)port->private;
+	h = (serial_t *)port->priv;
 	if (h == NULL)
 		return PORT_ERR_UNKNOWN;
 
@@ -333,14 +333,14 @@ static const char *serial_w32_get_cfg_str(struct port_interface *port)
 {
 	serial_t *h;
 
-	h = (serial_t *)port->private;
+	h = (serial_t *)port->priv;
 	return h ? h->setup_str : "INVALID";
 }
 
 static port_err_t serial_w32_flush(struct port_interface *port)
 {
 	serial_t *h;
-	h = (serial_t *)port->private;
+	h = (serial_t *)port->priv;
 	if (h == NULL)
 		return PORT_ERR_UNKNOWN;
 

@@ -250,7 +250,7 @@ static port_err_t serial_posix_open(struct port_interface *port,
 		return PORT_ERR_UNKNOWN;
 	}
 
-	port->private = h;
+	port->priv = h;
 	return PORT_ERR_OK;
 }
 
@@ -258,12 +258,12 @@ static port_err_t serial_posix_close(struct port_interface *port)
 {
 	serial_t *h;
 
-	h = (serial_t *)port->private;
+	h = (serial_t *)port->priv;
 	if (h == NULL)
 		return PORT_ERR_UNKNOWN;
 
 	serial_close(h);
-	port->private = NULL;
+	port->priv = NULL;
 	return PORT_ERR_OK;
 }
 
@@ -274,7 +274,7 @@ static port_err_t serial_posix_read(struct port_interface *port, void *buf,
 	ssize_t r;
 	uint8_t *pos = (uint8_t *)buf;
 
-	h = (serial_t *)port->private;
+	h = (serial_t *)port->priv;
 	if (h == NULL)
 		return PORT_ERR_UNKNOWN;
 
@@ -298,7 +298,7 @@ static port_err_t serial_posix_write(struct port_interface *port, void *buf,
 	ssize_t r;
 	const uint8_t *pos = (const uint8_t *)buf;
 
-	h = (serial_t *)port->private;
+	h = (serial_t *)port->priv;
 	if (h == NULL)
 		return PORT_ERR_UNKNOWN;
 
@@ -319,7 +319,7 @@ static port_err_t serial_posix_gpio(struct port_interface *port,
 	serial_t *h;
 	int bit, lines;
 
-	h = (serial_t *)port->private;
+	h = (serial_t *)port->priv;
 	if (h == NULL)
 		return PORT_ERR_UNKNOWN;
 
@@ -357,14 +357,14 @@ static const char *serial_posix_get_cfg_str(struct port_interface *port)
 {
 	serial_t *h;
 
-	h = (serial_t *)port->private;
+	h = (serial_t *)port->priv;
 	return h ? h->setup_str : "INVALID";
 }
 
 static port_err_t serial_posix_flush(struct port_interface *port)
 {
 	serial_t *h;
-	h = (serial_t *)port->private;
+	h = (serial_t *)port->priv;
 	if (h == NULL)
 		return PORT_ERR_UNKNOWN;
 
