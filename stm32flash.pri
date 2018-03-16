@@ -1,7 +1,5 @@
 CONFIG += c++11
 
-QMAKE_CFLAGS += -Wno-unused-parameter
-
 SRC_PATH = $$PWD
 
 INCLUDEPATH += $$SRC_PATH
