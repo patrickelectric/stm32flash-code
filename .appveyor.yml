@@ -26,6 +26,9 @@ before_build:
 build_script:
   - dir /s
   # Compile it and check for .exe
+  - cd parsers
+  - '%make%'
+  - cd ..
   - '%make%'
   - dir /b /s *.exe
 
