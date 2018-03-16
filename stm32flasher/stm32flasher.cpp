@@ -149,7 +149,7 @@ uint32_t Stm32Flasher::flash_page_to_addr(int page)
 }
 
 #if defined(__WIN32__) || defined(__CYGWIN__)
-bool PingFlasher::CtrlHandler( DWORD fdwCtrlType )
+void Stm32Flasher::sighandler( DWORD fdwCtrlType )
 {
     fprintf(stderr, "\nCaught signal %lu\n",fdwCtrlType);
     if (p_st &&  parser ) parser->close(p_st);
