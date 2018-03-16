@@ -23,6 +23,7 @@ before_build:
 
 build_script:
   # Compile it and check for .exe
+  - dir /s
   - '%make%'
   - dir /b /s *.exe
 
