@@ -23,10 +23,9 @@ before_build:
   - cd %APPVEYOR_BUILD_FOLDER%
 
 build_script:
+  - cd %APPVEYOR_BUILD_FOLDER%
   # Compile it and check for .exe
-  - dir /s
   - '%make%'
-  - dir /b /s *.exe
 
 after_build:
   # Add a link to the build output within the source directory. This is needed because AppVeyor does
