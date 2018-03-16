@@ -21,10 +21,10 @@ install:
 before_build:
   # Prepare the out-of-source build directory.
   - cd %APPVEYOR_BUILD_FOLDER%
-  - dir /s
+  - set AR=ar
+  - set CC=gcc
 
 build_script:
-  - dir /s
   # Compile it and check for .exe
   - cd parsers
   - '%make%'
