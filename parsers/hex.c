@@ -20,6 +20,7 @@
 
 #include <sys/types.h>
 #include <fcntl.h>
+#include <inttypes.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdint.h>
