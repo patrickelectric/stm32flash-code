@@ -15,7 +15,6 @@ install:
   # Set some vars
   - set path=%path%;%MINGWDIR%
   - '%compiler% --version'
-  - '%make% --version'
   - set BIN=stm32flash
 
 before_build:
