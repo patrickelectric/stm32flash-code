@@ -215,7 +215,7 @@ static uint32_t flash_page_to_addr(int page)
 
 
 #if defined(__WIN32__) || defined(__CYGWIN__)
-BOOL CtrlHandler( DWORD fdwCtrlType )
+bool CtrlHandler( DWORD fdwCtrlType )
 {
 	fprintf(stderr, "\nCaught signal %lu\n",fdwCtrlType);
 	if (p_st &&  parser ) parser->close(p_st);

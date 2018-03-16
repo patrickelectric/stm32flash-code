@@ -34,6 +34,10 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#if defined(__WIN32__) || defined(__CYGWIN__)
+#include <windows.h>
+#endif
+
 extern "C" {
 #include "init.h"
 #include "utils.h"
