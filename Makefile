@@ -20,7 +20,8 @@ all: stm32flash
 serial_platform.o: serial_posix.c serial_w32.c
 
 parsers/parsers.a: force
-	cd parsers && $(MAKE) parsers.a
+	cd parsers
+	$(MAKE) parsers.a
 
 stm32flash: $(OBJS) $(LIBOBJS)
 	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBOBJS)
