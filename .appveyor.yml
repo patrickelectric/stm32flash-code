@@ -13,11 +13,9 @@ environment:
 
 install:
   # Set some vars
-  - cd %MINGWDIR%
-  - dir /s
   - set path=%path%;%MINGWDIR%
-  - gcc --version
-  - make --version
+  - '%compiler% --version'
+  - '%make% --version'
   - set BIN=stm32flash
 
 before_build:
