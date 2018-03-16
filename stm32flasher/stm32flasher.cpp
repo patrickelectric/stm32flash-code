@@ -148,16 +148,6 @@ uint32_t Stm32Flasher::flash_page_to_addr(int page)
     return addr;
 }
 
-#if defined(__WIN32__) || defined(__CYGWIN__)
-void Stm32Flasher::sighandler( DWORD fdwCtrlType )
-{
-    fprintf(stderr, "\nCaught signal %lu\n",fdwCtrlType);
-    if (p_st &&  parser ) parser->close(p_st);
-    if (stm  ) stm32_close  (stm);
-    if (port) port->close(port);
-    exit(1);
-}
-#else
 void Stm32Flasher::sighandler(int s){
     fprintf(stderr, "\nCaught signal %d\n",s);
     if (p_st &&  parser ) parser->close(p_st);
@@ -165,7 +155,6 @@ void Stm32Flasher::sighandler(int s){
     if (port) port->close(port);
     exit(1);
 }
-#endif
 
 int Stm32Flasher::flash() {
     msleep(250); // wait for stm32 bootloader
