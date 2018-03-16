@@ -1,5 +1,6 @@
+CC=gcc
 PREFIX = /usr/local
-CFLAGS = CFLAGS -Wall -g
+CFLAGS = -Wall -g
 
 INSTALL = install
 
