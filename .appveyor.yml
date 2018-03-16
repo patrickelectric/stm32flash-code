@@ -37,9 +37,9 @@ after_build:
   # not support extracting artifacts from out-of-source build directories. See 'artifacts' below.
   - mkdir deploy
   - copy *.exe deploy\
-  - 7z a -tzip %BIN%_%CONFIGURATION%.zip deploy -r
+  - 7z a -tzip %BIN%.zip deploy -r
   - dir /b /s *.zip
 
 artifacts:
-  - path: '%BIN%_%CONFIGURATION%.zip'
+  - path: '%BIN%.zip'
     name: '%BIN%'
