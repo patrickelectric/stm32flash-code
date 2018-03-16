@@ -1,4 +1,4 @@
-CC=gcc
+AR=ar
 CFLAGS += -Wall -g
 
 all: parsers.a
