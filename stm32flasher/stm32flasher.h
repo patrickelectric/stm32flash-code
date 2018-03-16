@@ -138,11 +138,7 @@ private:
     int flash_addr_to_page_floor(uint32_t addr);
     int flash_addr_to_page_ceil(uint32_t addr);
     uint32_t flash_page_to_addr(int page);
-#if defined(__WIN32__) || defined(__CYGWIN__)
-    bool CtrlHandler( DWORD fdwCtrlType );
-#else
     void sighandler(int s);
-#endif
 
     int flash();
     int cleanup(int ret);
