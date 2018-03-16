@@ -22,7 +22,7 @@ serial_platform.o: serial_posix.c serial_w32.c
 
 parsers/parsers.a: force
 	cd parsers
-	$(MAKE) parsers.a
+	$(MAKE)
 
 stm32flash: $(OBJS) $(LIBOBJS)
 	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBOBJS)
