@@ -7,34 +7,15 @@ init:
 
 
 environment:
-  VSVER: 14.0
   matrix:
-    - MSVC_VERSION: 15
-      RUNTIME_LINKAGE: static
-      QT_VERSION: 5.10
-      QT_LINKAGE: static
-      COVERITY_BUILD_CANDIDATE: True
-      #https://www.appveyor.com/docs/build-environment/#qt
-      QTDIR: C:\Qt\5.10.1\msvc2015
-      PRJLIBS: VCRUNTIME140.dll MSVCP140.dll
-
-configuration:
-  - release
-  - debug
+    - compiler: gcc
+      MINGWDIR: C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin
 
 install:
   # Set some vars
-  - '%QTDIR%\bin\qtenv2.bat'
-  - qmake -v
-  - set PRJLIBDIR=%WINDIR%\SysWOW64 # Find vclibs
-  - set QTDIR
-  - if %QTDIR:_64=%==%QTDIR% ( set ARCH=x86 ) else set ARCH=x64
-  - if %QTDIR:msvc=%==%QTDIR% g++ --version
-  - if %QTDIR:msvc=%==%QTDIR% set make=mingw32-make.exe
-  - if %QTDIR:msvc=%==%QTDIR% %make% --version
-  - if not %QTDIR:msvc=%==%QTDIR% call "%ProgramFiles(x86)%\Microsoft Visual Studio %VSVER%\VC\vcvarsall.bat" %ARCH%
-  - if not %QTDIR:msvc=%==%QTDIR% set make=nmake.exe
-  - if not %QTDIR:msvc=%==%QTDIR% %make% /? > nul
+  - set path=%path%;%MINGWDIR%
+  - gcc --version
+  - make --version
   - set BIN=stm32flash
 
 before_build:
@@ -53,7 +34,6 @@ after_build:
   - mkdir deploy
   - copy *.exe deploy\
   - 7z a -tzip %BIN%_%CONFIGURATION%.zip deploy -r
-  - copy %APPVEYOR_BUILD_FOLDER%-build\%BIN%_%CONFIGURATION%.zip %APPVEYOR_BUILD_FOLDER%\%BIN%_%CONFIGURATION%.zip
   - dir /b /s *.zip
 
 artifacts:
