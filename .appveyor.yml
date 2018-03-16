@@ -13,6 +13,8 @@ environment:
 
 install:
   # Set some vars
+  - cd %MINGWDIR%
+  - find .
   - set path=%path%;%MINGWDIR%
   - gcc --version
   - make --version
