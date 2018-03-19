@@ -235,8 +235,14 @@ int Stm32Flasher::flash() {
         }
     }
 
-    if (port_open(&port_opts, &port) != PORT_ERR_OK) {
+    int serialTry = 3;
+    while (serialTry && port_open(&port_opts, &port) != PORT_ERR_OK) {
         fprintf(stderr, "Failed to open port: %s\n", port_opts.device);
+        sleep(1);
+        serialTry--;
+    }
+
+    if(!serialTry) {
         return cleanup(ret);
     }
 
