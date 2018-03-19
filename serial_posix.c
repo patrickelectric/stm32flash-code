@@ -222,19 +222,29 @@ static port_err_t serial_posix_open(struct port_interface *port,
 	serial_t *h;
 
 	/* 1. check options */
-	if (ops->baudRate == SERIAL_BAUD_INVALID)
+	if (ops->baudRate == SERIAL_BAUD_INVALID) {
+		fprintf(stderr, "Warning: Device: %s | Wrong baud\n", ops->device);
 		return PORT_ERR_UNKNOWN;
-	if (serial_get_bits(ops->serial_mode) == SERIAL_BITS_INVALID)
+	}
+	if (serial_get_bits(ops->serial_mode) == SERIAL_BITS_INVALID) {
+		fprintf(stderr, "Warning: Device: %s | Wrong bits\n", ops->device);
 		return PORT_ERR_UNKNOWN;
-	if (serial_get_parity(ops->serial_mode) == SERIAL_PARITY_INVALID)
+	}
+	if (serial_get_parity(ops->serial_mode) == SERIAL_PARITY_INVALID) {
+		fprintf(stderr, "Warning: Device: %s | Wrong parity\n", ops->device);
 		return PORT_ERR_UNKNOWN;
-	if (serial_get_stopbit(ops->serial_mode) == SERIAL_STOPBIT_INVALID)
+	}
+	if (serial_get_stopbit(ops->serial_mode) == SERIAL_STOPBIT_INVALID) {
+		fprintf(stderr, "Warning: Device: %s | Wrong stopbit\n", ops->device);
 		return PORT_ERR_UNKNOWN;
+	}
 
 	/* 2. open it */
 	h = serial_open(ops->device);
-	if (h == NULL)
+	if (h == NULL) {
+		fprintf(stderr, "Warning: Device: %s | H is null\n", ops->device);
 		return PORT_ERR_UNKNOWN;
+	}
 
 	/* 3. check for tty (but only warn) */
 	if (!isatty(h->fd))
@@ -247,6 +257,7 @@ static port_err_t serial_posix_open(struct port_interface *port,
 			 serial_get_stopbit(ops->serial_mode)
 			) != PORT_ERR_OK) {
 		serial_close(h);
+		fprintf(stderr, "Warning: Device: %s | Error in 4\n", ops->device);
 		return PORT_ERR_UNKNOWN;
 	}
 
