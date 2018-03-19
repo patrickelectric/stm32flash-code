@@ -197,23 +197,35 @@ static port_err_t serial_w32_open(struct port_interface *port,
 	/* 1. check device name match */
 	if (!(!strncmp(ops->device, "COM", 3) && isdigit(ops->device[3]))
 	    && !(!strncmp(ops->device, "\\\\.\\COM", strlen("\\\\.\\COM"))
-		 && isdigit(ops->device[strlen("\\\\.\\COM")])))
+		 && isdigit(ops->device[strlen("\\\\.\\COM")]))) {
+		fprintf(stderr, "Wrong name: %s\n", ops->device);
 		return PORT_ERR_NODEV;
+	}
 
 	/* 2. check options */
-	if (ops->baudRate == SERIAL_BAUD_INVALID)
+	if (ops->baudRate == SERIAL_BAUD_INVALID) {
+		fprintf(stderr, "Wrong baud: %s\n", ops->device);
 		return PORT_ERR_UNKNOWN;
-	if (serial_get_bits(ops->serial_mode) == SERIAL_BITS_INVALID)
+	}
+	if (serial_get_bits(ops->serial_mode) == SERIAL_BITS_INVALID) {
+		fprintf(stderr, "Wrong big: %s\n", ops->device);
 		return PORT_ERR_UNKNOWN;
-	if (serial_get_parity(ops->serial_mode) == SERIAL_PARITY_INVALID)
+	}
+	if (serial_get_parity(ops->serial_mode) == SERIAL_PARITY_INVALID) {
+		fprintf(stderr, "Wrong parity: %s\n", ops->device);
 		return PORT_ERR_UNKNOWN;
-	if (serial_get_stopbit(ops->serial_mode) == SERIAL_STOPBIT_INVALID)
+	}
+	if (serial_get_stopbit(ops->serial_mode) == SERIAL_STOPBIT_INVALID) {
+		fprintf(stderr, "Wrong stopbit: %s\n", ops->device);
 		return PORT_ERR_UNKNOWN;
+	}
 
 	/* 3. open it */
 	h = serial_open(ops->device);
-	if (h == NULL)
+	if (h == NULL) {
+		fprintf(stderr, "H is null: %s\n", ops->device);
 		return PORT_ERR_UNKNOWN;
+	}
 
 	/* 4. set options */
 	if (serial_setup(h, ops->baudRate,
@@ -221,6 +233,7 @@ static port_err_t serial_w32_open(struct port_interface *port,
 	    serial_get_parity(ops->serial_mode),
 	    serial_get_stopbit(ops->serial_mode)
 	   ) != PORT_ERR_OK) {
+		fprintf(stderr, "Wrong options: %s\n", ops->device);
 		serial_close(h);
 		return PORT_ERR_UNKNOWN;
 	}
