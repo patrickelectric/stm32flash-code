@@ -166,7 +166,7 @@ int Stm32Flasher::flash() {
     action = ACT_WRITE;
     exec_flag = 1;
     execute = 0x0;
-    port_opts.baudRate = SERIAL_BAUD_230400;
+    //port_opts.baudRate = SERIAL_BAUD_230400;
 //  port_opts.baudRate = SERIAL_BAUD_460800;
 
     if (action == ACT_READ && use_stdinout) {
