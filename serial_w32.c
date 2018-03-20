@@ -40,6 +40,9 @@ struct serial {
 static serial_t *serial_open(const char *device)
 {
 	serial_t *h = calloc(1, sizeof(serial_t));
+	if (h == NULL) {
+		fprintf(stderr, "Calloc fail: %s\n", device);
+	}
 	char *devName;
 
 	/* timeout in ms */
@@ -65,6 +68,7 @@ static serial_t *serial_open(const char *device)
 		free(devName);
 
 	if (h->fd == INVALID_HANDLE_VALUE) {
+		fprintf(stderr, "Invalid error value: %s\n", device);
 		if (GetLastError() == ERROR_FILE_NOT_FOUND)
 			fprintf(stderr, "File not found: %s\n", device);
 		free(h);
@@ -84,6 +88,9 @@ static serial_t *serial_open(const char *device)
 	GetCommState(h->fd, &h->newtio); /* Retrieve port parameters */
 
 	/* PurgeComm(h->fd, PURGE_RXABORT | PURGE_TXCLEAR | PURGE_TXABORT | PURGE_TXCLEAR); */
+	if (h == NULL) {
+		fprintf(stderr, "Calloc fail last: %s\n", device);
+	}
 
 	return h;
 }
