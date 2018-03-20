@@ -56,6 +56,8 @@ static serial_t *serial_open(const char *device)
 		devName = (char *)device;
 	}
 
+	fprintf(stderr, "device: \'%s\'\n", device);
+	fprintf(stderr, "devName: \'%s\'\n", devName);
 	/* Create file handle for port */
 	h->fd = CreateFile(devName, GENERIC_READ | GENERIC_WRITE,
 			   0,		/* Exclusive access */
