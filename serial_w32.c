@@ -49,7 +49,7 @@ static serial_t *serial_open(const char *device)
 	COMMTIMEOUTS timeouts = {MAXDWORD, MAXDWORD, 500, 0, 0};
 
 	/* Fix the device name if required */
-	if (strlen(device) > 4 && device[0] != '\\') {
+	if (strlen(device) > 3 && device[0] != '\\') {
 		devName = calloc(1, strlen(device) + 5);
 		sprintf(devName, "\\\\.\\%s", device);
 	} else {
