@@ -69,6 +69,7 @@ static serial_t *serial_open(const char *device)
 
 	if (h->fd == INVALID_HANDLE_VALUE) {
 		fprintf(stderr, "Invalid error value: %s\n", device);
+		fprintf(stderr, "Failed - %d\n", GetLastError());
 		if (GetLastError() == ERROR_FILE_NOT_FOUND)
 			fprintf(stderr, "File not found: %s\n", device);
 		free(h);
