@@ -39,7 +39,7 @@ struct serial {
 
 static serial_t *serial_open(const char *device)
 {
-	serial_t *h = calloc(sizeof(serial_t), 1);
+	serial_t *h = calloc(1, sizeof(serial_t));
 	char *devName;
 
 	/* timeout in ms */
