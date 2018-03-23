@@ -45,7 +45,7 @@ parser_err_t hex_open(void *storage, const char *filename, const char write) {
 		return PARSER_ERR_RDONLY;
 	} else {
 		char mark;
-		uint i;
+		int i;
 		int fd;
 		uint8_t checksum;
 		unsigned int c;
