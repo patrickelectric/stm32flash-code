@@ -53,13 +53,21 @@ static serial_t *serial_open(const char *device)
 		devName = (char *)device;
 	}
 
+	int size = strlen(devName)+1;
+	size_t converted = 0;
+	TCHAR devNameW[size];
+	mbstowcs_s(&converted, devNameW, size, devName, size);
+	//TCHAR *pcCommPort = L"\\\\.\\COM10"; // This will work
+
 	/* Create file handle for port */
-	h->fd = CreateFile(devName, GENERIC_READ | GENERIC_WRITE,
+	h->fd = CreateFile(devNameW, GENERIC_READ | GENERIC_WRITE,
 			   0,		/* Exclusive access */
 			   NULL,	/* No security */
 			   OPEN_EXISTING,
 			   0,		/* No overlap */
 			   NULL);
+
+	free(devNameW);
 
 	if (devName != device)
 		free(devName);
