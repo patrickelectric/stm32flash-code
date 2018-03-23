@@ -168,7 +168,7 @@ uint32_t Stm32Flasher::flash_page_to_addr(int page)
 //#endif
 
 int Stm32Flasher::flash() {
-    msleep(250); // wait for stm32 bootloader
+    msleep(500); // wait for stm32 bootloader
 
     int ret = 1;
     stm32_err_t s_err;
@@ -177,7 +177,7 @@ int Stm32Flasher::flash() {
     action = ACT_WRITE;
     exec_flag = 1;
     execute = 0x0;
-    port_opts.baudRate = SERIAL_BAUD_230400;
+    port_opts.baudRate = SERIAL_BAUD_57600;
 //  port_opts.baudRate = SERIAL_BAUD_460800;
 
     if (action == ACT_READ && use_stdinout) {
