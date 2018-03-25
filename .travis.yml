@@ -29,17 +29,17 @@ install:
 - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
     sudo apt update -qq;
     sudo apt install build-essential git;
-    export ARTIFACT="$BIN";
   fi
 - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
     brew update > /dev/null;
-    export ARTIFACT="$BIN";
   fi
+- export ARTIFACT=${BIN}_${TRAVIS_OS_NAME}.zip;
 
 script:
 - make;
 - ls;
 - find . | grep stm32flash;
+- zip ${ARTIFACT} stm32flash;
 
 after_success:
 - export GITHUB_TOKEN=$github_token
